@@ -1,0 +1,4 @@
+﻿  test.cpp
+C:\Users\Данила\OneDrive\Рабочий стол\test\test\test.cpp(58,43): warning C4244: return: преобразование "double" в "int", возможна потеря данных
+C:\Users\Данила\OneDrive\Рабочий стол\test\test\test.cpp(61,48): warning C4244: return: преобразование "double" в "int", возможна потеря данных
+  test.vcxproj -> C:\Users\Данила\OneDrive\Рабочий стол\test\Debug\test.exe

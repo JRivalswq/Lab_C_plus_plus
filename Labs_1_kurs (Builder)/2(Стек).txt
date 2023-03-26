@@ -1,0 +1,69 @@
+#include <iostream>
+#include <math.h>
+#include <time.h>
+#include <conio.h>
+using namespace std;
+
+struct Stack
+{
+double info;
+Stack* next;
+};
+
+
+void InStack(Stack* &begin, int in) {
+Stack* t = new Stack;
+t->info = in;
+t->next = begin;
+begin = t;
+}
+
+
+
+void Show(Stack* t) {
+while (t) {
+cout << t->info << " ";
+t = t->next;
+}
+cout << endl;
+}
+
+
+void Del(Stack* &begin) {
+Stack* t;
+while (begin!= NULL){
+t = begin;
+begin = begin->next;
+delete t;
+}
+}
+
+
+
+double Calculate(Stack* begin) {
+double a = 0;
+int i = 0;
+for (Stack* t = begin; t; t = t->next, i++)
+a += t->info;
+return a/i;
+}
+
+int main() {
+int in, n;
+cout << "Enter n=";
+cin >> n;
+Stack* begin = NULL;
+for (int i = 0; i < n; i++)
+{
+cout << "Info=";
+cin >> in;
+InStack(begin, in);
+}
+cout<<"--before calc--"<<endl;
+Show(begin);
+begin->info=Calculate(begin);
+cout<<"--after calc--"<<endl;
+Show(begin);
+system("pause");
+Del(begin);
+}

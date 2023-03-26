@@ -1,0 +1,73 @@
+#include <iostream>
+#include <math.h>
+#include <conio.h>
+using namespace std;
+
+double fun(double x) {
+	return  x * x - 10 * (sin(x) * sin(x));
+}
+
+double Simpson(double (*f)(double x), double a, double b, int n) {
+	double s = 0, h, x;
+	h = (b - a) / n;
+	x = a;
+	for (int i = 1; i <= n; i++) {
+		s += f(x) + 4 * f(x + h / 2) + f(x + h);
+		x += h;
+	}
+	return  s * h / 6;
+}
+
+
+int main() {
+	double a, b, x, eps, h, S1, S2, pogr;
+	int n, n1, kod, kod1;
+	do {
+		cout << "test - 1, input your values - else";
+		cin >> kod1;
+		if (kod1 == 1) {
+			cout << "test with a = 0, b = 3, n = 1000";
+			a = 0;
+			b = 3;
+			n = 1000;
+			S1 = Simpson(fun, a, b, n);
+			cout << "\n\t Integral po Simpson = " << S1 << endl;
+		}
+		else {
+			cout << "Input a, b\n";
+			cout << "\ta =";
+			cin >> a;
+			cout << "\tb =";
+			cin >> b;
+			if (a > b) {
+				cout << "Wrong values!";
+				break;
+			}
+			cout << "\n\tInput n:";
+			cin >> n;
+			if (n <= 0) {
+				cout << "\n\tWrong values! Use n > 0";
+				break;
+			}
+			S1 = Simpson(fun, a, b, n);
+			cout << "\n\t Integral po Simpson = " << S1 << endl;
+			cout << "\n\tInput eps:";
+			cin >> eps;
+			if (eps < 0) {
+				cout << "\n\tWrong values! Use eps > 0";
+				break;
+			}
+			n1 = 2;
+			S1 = Simpson(fun, a, b, n1);
+			do {
+				n1 *= 2;
+				S2 = Simpson(fun, a, b, n1);
+				pogr = fabs(S2 - S1);
+				S1 = S2;
+			} while (pogr > eps);
+			cout << "\t n = " << n1/2 << endl;
+			cout << "\n\t Integral po Simpson = " << S1 << endl;
+		}
+		cout << "\n Repeat - 1, Else - EXIT " << endl;
+	} while (_getch() == '1');
+}

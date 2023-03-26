@@ -1,0 +1,149 @@
+#include <iostream>
+#include <math.h>
+#include <time.h>
+#include <conio.h>
+using namespace std;
+
+struct Stack
+{
+double info;
+Stack* next, *prev;
+};
+
+void Create(Stack*&b, Stack*&e, int in) {
+Stack* t = new Stack;
+t->info = in;
+t->next = t->prev = 0;
+e = b = t;
+}
+
+Stack* InStack_Beg(Stack* p, int in) {
+Stack* t = new Stack;
+t->info = in;
+t->next = p;
+t->prev = 0;
+p->prev = t;
+return t;
+}
+
+Stack* InStack_End(Stack* p, int in) {
+Stack* t = new Stack;
+t->info = in;
+t->prev = p;
+t->next = 0;
+p->next = t;
+return t;
+}
+
+void Show_Beg(Stack* t) {
+while (t) {
+cout << t->info << "  ";
+t = t->next;
+}
+cout << endl;
+}
+
+void Show_End(Stack* t) {
+while (t) {
+cout << t->info << "  ";
+t = t->prev;
+}
+cout << endl;
+}
+
+Stack* Del(Stack* &p) {
+Stack* t;
+while (p!= NULL){
+t = p;
+p = p->next;
+delete t;
+}
+return 0;
+}
+
+
+double Calculate(Stack* p) {
+int c = 0;
+double r = 0;
+Stack* t = p;
+while (t) {
+c++;
+r += t->info;
+t = t->next;
+}
+return r = r / c;
+}
+
+int main() {
+Stack* beg = 0, * end = 0;
+int in, g, g1;
+        while (true) {
+        cout << "\n\tCreat - 1\n\tAdd - 2\n\tView - 3\n\tDel - 4\n\tTask - 5\n\tEXIT - 0 : ";
+        cin >> g;
+           switch (g) {
+        case 1:
+if (beg != NULL) {
+cout << "Clear Memory!" << endl;
+break;
+}
+cout << "Begin Info = ";
+cin >> in;
+Create(beg, end, in);
+cout << "Creat Begin = " << beg->info << endl;
+break;
+        case 2:
+if (beg == NULL) {
+cout << "Create List!" << endl;
+break;
+}
+cout << "Info = ";
+cin >> in;
+cout << "Add Begin - 0, Add End - 1 : ";
+        cin >> g1;
+                switch (g1) {
+        case 0:
+beg = InStack_Beg(beg, in);
+cout << "Add to Begin" << endl;
+break;
+        case 1:
+end = InStack_End(end, in);
+cout << "Add to End" << endl;
+break;
+default: break;
+}
+break;
+        case 3:
+if (!beg) {
+cout << "Spisok Pyst" << endl;
+break;
+}
+cout << "---view begin--" << endl;
+Show_Beg(beg);
+cout << "---view end--" << endl;
+Show_End(end);
+break;
+        case 4:
+        if (beg == NULL) {
+cout << "Create List!" << endl;
+break;
+}
+end = Del(beg);
+cout << "Memory Free" << endl;
+break;
+
+case 5:
+cout << "Srednee = " << (beg->info = Calculate(beg)) << endl;
+break;
+
+case 0:
+if (beg != NULL)
+end = Del(beg);
+return 0;
+}
+}
+getch();
+return 0;
+}
+
+
+

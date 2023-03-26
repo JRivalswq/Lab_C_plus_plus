@@ -1,0 +1,42 @@
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <conio.h>
+using namespace std;
+
+double fun(double x, int n) {
+        double res;
+	if (n % 2 == 0){
+            	res = pow(x,n);
+                cout << "chetn-->using y=(x^(n/2))^2" <<"\n "<< endl;
+                }
+        else{
+                res = x * (pow(x, n - 1));
+		cout << "nechetn using y=x*y^(n-1)"<<endl;
+                }
+        return res;
+}
+
+double fund(double x, int n){
+if (n==1) return x;
+if(n % 2 == 0){
+return fund(x,n/2)*fund(x,n/2);
+}
+else{
+return x*fund(x,n-1);
+}
+}
+
+int main(int argc, char* argv[]) {
+	int n;
+	double x;
+        cout<<"enter x"<<endl;
+        cin >> x;
+        cout<<"enter n"<<endl;
+	cin >> n;
+        cout << "result common funct" << fun(x,n) << endl;
+        cout << "result recurs funct" << fund(x,n) << endl;
+	system("pause");
+	return 0;
+
+}

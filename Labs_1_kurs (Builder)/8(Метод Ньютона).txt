@@ -1,0 +1,106 @@
+#include <iostream>
+#include <math.h>
+#include <conio.h>
+
+using namespace std;
+
+typedef double (*type_f)(double);
+
+double Fx(double x) {
+	return 4 * x - 7 * sin(x);
+}
+
+double Fx_(double x) {
+	return 4 - 7 * cos(x);
+}
+
+
+double Metod(type_f  f, double x0, double x1, double eps)
+{
+	double x2, y0, y2;
+	int count = 0;
+	y0 = f(x0);
+	do {
+		count++;
+		x2 = (x0 + x1) / 2;	y2 = f(x2);
+		if (y0 * y2 > 0) {
+			x0 = x2;	y0 = y2;
+		}
+		else x1 = x2;
+	} while (fabs(x1 - x0) > eps);
+	cout << "Kolich interacii = " << count << endl;
+	return (x0 + x1) / 2;
+}
+
+
+
+//----------------------------------------
+double newton(double x, double eps) {
+	double x0;
+	int count = 0;
+
+	do {
+		x0 = x;
+		x = x0 - Fx(x0) / Fx_(x0);
+		count++;
+	} while (abs(x - x0) > eps);
+	
+	return x;
+}
+//-------------------------------------
+
+int main()
+{
+	do
+	{
+		double a = -4.0, b = 2.0, eps = 0.0001, h = 0.1, x, y;
+		cout << "1 - test, else input" << endl;
+		if (!(_getch() == '1')) {
+			cout << "Enter a = ";
+			cin >> a;
+			cout << "Enter b = ";
+			cin >> b;
+			while (1) {
+				cout << "Enter eps = ";
+				cin >> eps;
+				if (!(eps > 0)) {
+					cout << "eps > 0" << endl;
+					continue;
+				}
+				break;
+			}
+			while (1) {
+				cout << "Enter step h = ";
+				cin >> h;
+				if (!(h > 0)) {
+					cout << "h > 0!" << endl;
+					continue;
+				}
+				break;
+			}
+		}
+		int nom = 0;
+		cout << "Delyenie otrezka popolam:" << endl;
+		for (x = a; x <= b; x += h)
+			if (Fx(x) * Fx(x + h) < 0) {
+				y = Metod(Fx, x, x + h, eps);
+				cout << y << " f = " << Fx(y) << endl;
+				nom++;
+			}
+		if (nom == 0) cout << "No roots" << endl;
+		nom = 0;
+		cout << "Newton:" << endl;
+		for (x = a; x <= b; x += h)
+			if (Fx(x) * Fx(x + h) < 0) {
+				y = newton(x, eps);
+				cout << y << " f = " << Fx(y) << endl;
+				nom++;
+			}
+		if (nom == 0) cout << "No roots" << endl;
+		cout << "press 1 - to calculate again, else - exit" << endl;
+	} while (_getch() == '1');
+	return 0;
+}
+
+
+
